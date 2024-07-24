@@ -1,0 +1,44 @@
+- defaults:
+    link:
+      relink: true
+      create: true
+
+- clean: ["~"]
+
+- link:
+    ~/scripts:
+      path: scripts
+      force: true
+    ~/utils:
+      path: scripts
+      force: true
+    ~/.config:
+      path: .config
+      force: false
+    ~/.warp:
+      path: .warp
+      force: true
+    ~/.zsh:
+      path: .zsh
+      force: true
+    ~/.zshrc:
+      path: .zshrc
+      force: true
+    ~/.zshenv:
+      path: .zshenv
+      force: false
+    ~/.vim:
+      path: .vim
+      force: false
+    ~/.vimrc:
+      path: .vimrc
+      force: false
+    ~/.ansible.cfg:
+      path: .ansible.cfg
+      force: false
+
+- create:
+    - ~/github
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]
