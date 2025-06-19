@@ -13,4 +13,4 @@ FILE="${VOLUME}.tar.gz"
 docker run --rm \
   -v "${VOLUME}:/source" \
   ubuntu \
-  rm -r /source
+  rm -rf /source/* /source/.* 2>/dev/null || true
