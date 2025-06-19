@@ -25,6 +25,7 @@ load_module  ~/.zsh/wsl.zsh
 ZSH_THEME="agnoster"
 
 export ZSH="$HOME/.oh-my-zsh"
+export PATH="$HOME/scripts:$PATH"
 
 plugins=(git)
 
