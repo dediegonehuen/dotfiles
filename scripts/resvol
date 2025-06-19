@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$1" ] || [ -z "$2" ]; then
+  echo "Use: $0 file.tar.gz vol-name"
+  exit 1
+fi
+
+FILE="$1"
+VOLUME="$2"
+
+if [ ! -f "$FILE" ]; then
+  exit 1
+fi
+
+docker run --rm \
+  -v "${VOLUME}:/target" \
+  -v "$(pwd):/backup" \
+  ubuntu \
+  bash -c "cd /target && tar xvf /backup/$(basename "$FILE")"
