@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+UBUNTU_IMAGE="ubuntu:24.04"
+
 vol_export() {
     if [ -z "$1" ]; then
         echo "use: export <volume> [file.tar.gz]"
@@ -18,7 +20,7 @@ vol_export() {
     docker run --rm \
     -v "${VOLUME}:/source:ro" \
     -v "$(pwd):/backup" \
-    ubuntu:24.04 \
+    "$UBUNTU_IMAGE" \
     tar czf "/backup/$(basename "$FILE")" -C /source .
 }
 
@@ -43,11 +45,9 @@ vol_import() {
     docker run --rm \
     -v "${VOLUME}:/target" \
     -v "$(pwd):/backup" \
-    ubuntu:24.04 \
+    "$UBUNTU_IMAGE" \
     tar xzf "/backup/$(basename "$FILE")" -C /target
 }
-
-
 
 vol_clone() {
     if [ -z "$1" ] || [ -z "$2" ]; then
@@ -70,7 +70,7 @@ vol_clone() {
     docker run --rm \
     -v "${SRC}:/source:ro" \
     -v "${DST}:/target" \
-    ubuntu \
+    "$UBUNTU_IMAGE" \
     cp -a /source/. /target/
 }
 
