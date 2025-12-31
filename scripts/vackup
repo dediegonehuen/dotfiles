@@ -1,0 +1,74 @@
+export() {
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        echo "Use: $0 file.tar.gz vol-name"
+        exit 1
+    fi
+    
+    FILE="$1"
+    VOLUME="$2"
+    
+    if [ ! -f "$FILE" ]; then
+        exit 1
+    fi
+    
+    docker run --rm \
+    -v "${VOLUME}:/target" \
+    -v "$(pwd):/backup" \
+    ubuntu \
+    bash -c "cd /target && tar xvf /backup/$(basename "$FILE")"
+}
+
+import() {
+    if [ -z "$1" ]; then
+        echo "Use: $0 vol-name"
+        exit 1
+    fi
+    
+    VOLUME="$1"
+    FILE="${VOLUME}.tar.gz"
+    
+    docker run --rm \
+    -v "${VOLUME}:/source" \
+    -v "$(pwd):/backup" \
+    ubuntu \
+    tar cvf "/backup/${FILE}" -C /source .
+}
+
+clone() {
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        echo "Uso: $0 volumen-origen volumen-destino"
+        exit 1
+    fi
+    
+    VOLUME="$1"
+    CLONE_VOLUME="$2"
+    
+    docker volume inspect "$CLONE_VOLUME" >/dev/null 2>&1 || {
+        docker volume create "$CLONE_VOLUME"
+    }
+    
+    docker run --rm \
+    -v "${VOLUME}:/source:ro" \
+    -v "${CLONE_VOLUME}:/target" \
+    ubuntu \
+    bash -c "cp -a /source/. /target/"
+}
+
+case "${1:-}" in
+    export)
+        shift
+        export "$@"
+    ;;
+    import)
+        shift
+        import "$@"
+    ;;
+    clone)
+        shift
+        clone "$@"
+    ;;
+    *)
+        echo "Available commands: [export, import]"
+        exit 1
+    ;;
+esac
