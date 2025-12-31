@@ -1,74 +1,92 @@
-export() {
+#!/usr/bin/env bash
+set -e
+
+vol_export() {
     if [ -z "$1" ] || [ -z "$2" ]; then
-        echo "Use: $0 file.tar.gz vol-name"
+        echo "use: $0 export volume file.tar.gz"
+        exit 1
+    fi
+    
+    VOLUME="$1"
+    FILE="$2"
+    
+    docker volume inspect "$VOLUME" >/dev/null 2>&1 || {
+        echo "volume dont exist"
+        exit 1
+    }
+    
+    docker run --rm \
+    -v "${VOLUME}:/source:ro" \
+    -v "$(pwd):/backup" \
+    ubuntu \
+    tar czf "/backup/$(basename "$FILE")" -C /source .
+}
+
+vol_import() {
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        echo "use: $0 import file.tar.gz volume"
         exit 1
     fi
     
     FILE="$1"
     VOLUME="$2"
     
-    if [ ! -f "$FILE" ]; then
+    [ -f "$FILE" ] || {
+        echo "file dont exist"
         exit 1
-    fi
+    }
+    
+    docker volume inspect "$VOLUME" >/dev/null 2>&1 || {
+        docker volume create "$VOLUME"
+    }
     
     docker run --rm \
     -v "${VOLUME}:/target" \
     -v "$(pwd):/backup" \
     ubuntu \
-    bash -c "cd /target && tar xvf /backup/$(basename "$FILE")"
+    tar xzf "/backup/$(basename "$FILE")" -C /target
 }
 
-import() {
-    if [ -z "$1" ]; then
-        echo "Use: $0 vol-name"
-        exit 1
-    fi
-    
-    VOLUME="$1"
-    FILE="${VOLUME}.tar.gz"
-    
-    docker run --rm \
-    -v "${VOLUME}:/source" \
-    -v "$(pwd):/backup" \
-    ubuntu \
-    tar cvf "/backup/${FILE}" -C /source .
-}
-
-clone() {
+vol_clone() {
     if [ -z "$1" ] || [ -z "$2" ]; then
-        echo "Uso: $0 volumen-origen volumen-destino"
+        echo "use: $0 clone volumen-source volumen-destination"
         exit 1
     fi
     
-    VOLUME="$1"
-    CLONE_VOLUME="$2"
+    SRC="$1"
+    DST="$2"
     
-    docker volume inspect "$CLONE_VOLUME" >/dev/null 2>&1 || {
-        docker volume create "$CLONE_VOLUME"
+    docker volume inspect "$SRC" >/dev/null 2>&1 || {
+        echo "volume dont exist"
+        exit 1
+    }
+    
+    docker volume inspect "$DST" >/dev/null 2>&1 || {
+        docker volume create "$DST"
     }
     
     docker run --rm \
-    -v "${VOLUME}:/source:ro" \
-    -v "${CLONE_VOLUME}:/target" \
+    -v "${SRC}:/source:ro" \
+    -v "${DST}:/target" \
     ubuntu \
-    bash -c "cp -a /source/. /target/"
+    cp -a /source/. /target/
 }
 
 case "${1:-}" in
     export)
         shift
-        export "$@"
+        vol_export "$@"
     ;;
     import)
         shift
-        import "$@"
+        vol_import "$@"
     ;;
     clone)
         shift
-        clone "$@"
+        vol_clone "$@"
     ;;
     *)
-        echo "Available commands: [export, import]"
+        echo "Commands: [export, import, clone]"
         exit 1
     ;;
 esac
