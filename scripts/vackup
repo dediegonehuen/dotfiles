@@ -2,37 +2,37 @@
 set -e
 
 vol_export() {
-    if [ -z "$1" ] || [ -z "$2" ]; then
-        echo "use: $0 export volume file.tar.gz"
+    if [ -z "$1" ]; then
+        echo "use: export <volume> [file.tar.gz]"
         exit 1
     fi
     
     VOLUME="$1"
-    FILE="$2"
+    FILE="${2:-$VOLUME.tar.gz}"
     
     docker volume inspect "$VOLUME" >/dev/null 2>&1 || {
-        echo "volume dont exist"
+        echo "volume does not exist"
         exit 1
     }
     
     docker run --rm \
     -v "${VOLUME}:/source:ro" \
     -v "$(pwd):/backup" \
-    ubuntu \
+    ubuntu:24.04 \
     tar czf "/backup/$(basename "$FILE")" -C /source .
 }
 
 vol_import() {
-    if [ -z "$1" ] || [ -z "$2" ]; then
-        echo "use: $0 import file.tar.gz volume"
+    if [ -z "$1" ]; then
+        echo "use: import <volume> [file.tar.gz]"
         exit 1
     fi
     
-    FILE="$1"
-    VOLUME="$2"
+    VOLUME="$1"
+    FILE="${2:-$VOLUME.tar.gz}"
     
     [ -f "$FILE" ] || {
-        echo "file dont exist"
+        echo "file does not exist"
         exit 1
     }
     
@@ -43,9 +43,11 @@ vol_import() {
     docker run --rm \
     -v "${VOLUME}:/target" \
     -v "$(pwd):/backup" \
-    ubuntu \
+    ubuntu:24.04 \
     tar xzf "/backup/$(basename "$FILE")" -C /target
 }
+
+
 
 vol_clone() {
     if [ -z "$1" ] || [ -z "$2" ]; then
