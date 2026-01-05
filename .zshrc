@@ -20,7 +20,6 @@ load_module  ~/.zsh/functions.zsh
 load_module  ~/.zsh/bindkey.zsh
 load_module  ~/.zsh/nvm.zsh
 load_module  ~/.zsh/wsl.zsh
-#load_module  ~/.zsh/starship.zsh
 
 ZSH_THEME="agnoster"
 

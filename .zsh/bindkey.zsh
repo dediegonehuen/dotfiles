@@ -1,6 +1,3 @@
-# Bindkey
-# ---
-#
 # General
 bindkey -e
 bindkey "\e[3~" delete-char

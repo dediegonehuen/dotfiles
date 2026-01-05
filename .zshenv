@@ -1,6 +1,3 @@
-# Added locations to path variable
-export PATH=$PATH:$HOME/.local/bin:$HOME/.cargo/bin
-
 # NVM directory
 export NVM_DIR="$HOME/.nvm"
 
@@ -10,7 +7,3 @@ export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
 
 export EDITOR=nano
 export KUBE_EDITOR=nano
-
-export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-
-
