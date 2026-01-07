@@ -2,61 +2,42 @@
 
 🏠 Personal dotfiles.
 
-## Installation
+## 👉 Installation
 
-### 👉 Installation:
+> This repo use [dotbot](https://github.com/anishathalye/dotbot) to bootstraps your dotfiles
 
-- **`Install dotfiles:`**
+- Go to your your home directory:
 
-  - Go to your your home directory:
+  ```shell
+  cd ~
+  ```
 
-    ```shell
-    cd ~
-    ```
+- Clone the repository:
 
-  - Clone the repository:
+  ```shell
+  git clone https://github.com/dediegonehuen/dotfiles ~/.dotfiles
+  ```
 
-    ```shell
-    git clone https://github.com/dediegonehuen/dotfiles .dotfiles
-    ```
+- Make install script executable
 
-- **`Install dotbot:`**
+  ```shell
+  sudo chmod +x ~/.dotfiles/install.sh
+  ```
 
-  > [dotbot](https://github.com/anishathalye/dotbot) is a tool that bootstraps your dotfiles
+- Run the install script
 
-  - Go to dotfiles directory:
+  ```shell
+  ~/.dotfiles/install.sh
+  ```
 
-    ```shell
-    cd ~/.dotfiles
-    ```
+## 🛠️ Configuration:
 
-  - Install dotbot as submodule:
+### Terminal and Application Icons with Nerd-Fonts
 
-    ```shell
-    git submodule add https://github.com/anishathalye/dotbot
-    ```
+To display icons in terminal or applications Fonts, I'm using [Nerd-Fonts](https://www.nerdfonts.com). I'm currently using the **Hack Nerd Font Mono** in terminal applications, and **Hack Nerd Font** in applications.
 
-  - Ignore dirty commits in the submodule
 
-    ```shell
-    git config -f .gitmodules submodule.dotbot.ignore dirty
-    ```
-
-  - Make install script executable
-
-    ```shell
-    sudo chmod +x install.sh
-    ```
-
-  - Run the install script
-
-    ```shell
-    ./install.sh
-    ```
-
-### 🛠️ Configuration:
-
-### 🔰 Credits:
+## 🔰 Credits:
 
 - [q3aql](https://gitlab.com/dediegonehuen/dotfiles)
 - [Antonio Sarosi](https://github.com/antoniosarosi/dotfiles/)
