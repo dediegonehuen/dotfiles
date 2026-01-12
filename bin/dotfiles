@@ -18,7 +18,7 @@ dotfiles_bootstrap() {
     yadm clone https://github.com/dediegonehuen/dotfiles
 
     curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s -- --keep-zshrc
-    curl -sS https://starship.rs/install.sh | bash
+    curl -sS https://starship.rs/install.sh | sh
 }
 
 dotfiles_update() {
