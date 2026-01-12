@@ -2,61 +2,25 @@
 
 🏠 Personal dotfiles.
 
-## Installation
+## 👉 Installation
 
-### 👉 Installation:
+> This repo use [yadm](https://yadm.io) to bootstraps your dotfiles
 
-- **`Install dotfiles:`**
+Run the install script
 
-  - Go to your your home directory:
+  ```shell
+  curl -sS https://raw.githubusercontent.com/dediegonehuen/dotfiles/master/bin/dotfiles | sh -s -- bootstrap
+  ```
 
-    ```shell
-    cd ~
-    ```
+## 🛠️ Configuration
 
-  - Clone the repository:
+### Terminal and Application Icons with Nerd-Fonts
 
-    ```shell
-    git clone https://github.com/dediegonehuen/dotfiles .dotfiles
-    ```
+To display icons in terminal or applications Fonts, I'm using [Nerd-Fonts](https://www.nerdfonts.com). I'm currently using the **Hack Nerd Font Mono** in terminal applications, and **Hack Nerd Font** in applications.
 
-- **`Install dotbot:`**
+## 🔰 Credits
 
-  > [dotbot](https://github.com/anishathalye/dotbot) is a tool that bootstraps your dotfiles
-
-  - Go to dotfiles directory:
-
-    ```shell
-    cd ~/.dotfiles
-    ```
-
-  - Install dotbot as submodule:
-
-    ```shell
-    git submodule add https://github.com/anishathalye/dotbot
-    ```
-
-  - Ignore dirty commits in the submodule
-
-    ```shell
-    git config -f .gitmodules submodule.dotbot.ignore dirty
-    ```
-
-  - Make install script executable
-
-    ```shell
-    sudo chmod +x install.sh
-    ```
-
-  - Run the install script
-
-    ```shell
-    ./install.sh
-    ```
-
-### 🛠️ Configuration:
-
-### 🔰 Credits:
+I took inspiration and ideas from the following amazing projects and creators
 
 - [q3aql](https://gitlab.com/dediegonehuen/dotfiles)
 - [Antonio Sarosi](https://github.com/antoniosarosi/dotfiles/)

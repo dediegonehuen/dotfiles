@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -e
+
+_error() {
+    echo "Error: $1" >&2
+    exit 1
+}
+
+_info() {
+    echo "Info: $1" >&2
+}
+
+dotfiles_bootstrap() {
+    command -v zsh >/dev/null 2>&1 || _error "package Zsh not installed"
+    command -v yadm >/dev/null 2>&1 || _error "package Yadm not installed"
+
+    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s -- --keep-zshrc
+    curl -sS https://starship.rs/install.sh | sh
+
+    yadm clone https://github.com/dediegonehuen/dotfiles
+}
+
+dotfiles_update() {
+    yadm update
+}
+
+case "${1:-}" in
+    bootstrap)
+        shift
+        dotfiles_bootstrap "$@"
+    ;;
+    update)
+        shift
+        dotfiles_update "$@"
+    *)
+        _error "commands: [bootstrap]"
+    ;;
+esac
