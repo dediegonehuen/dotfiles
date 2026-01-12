@@ -4,30 +4,12 @@
 
 ## 👉 Installation
 
-> This repo use [dotbot](https://github.com/anishathalye/dotbot) to bootstraps your dotfiles
+> This repo use [yadm](https://yadm.io) to bootstraps your dotfiles
 
-- Go to your your home directory:
-
-  ```shell
-  cd ~
-  ```
-
-- Clone the repository:
+Run the install script
 
   ```shell
-  git clone https://github.com/dediegonehuen/dotfiles ~/.dotfiles
-  ```
-
-- Make install script executable
-
-  ```shell
-  sudo chmod +x ~/.dotfiles/install.sh
-  ```
-
-- Run the install script
-
-  ```shell
-  ~/.dotfiles/install.sh
+  curl -sS https://raw.githubusercontent.com/dediegonehuen/dotfiles/master/bin/dotfiles | sh -s -- bootstrap
   ```
 
 ## 🛠️ Configuration
@@ -37,6 +19,8 @@
 To display icons in terminal or applications Fonts, I'm using [Nerd-Fonts](https://www.nerdfonts.com). I'm currently using the **Hack Nerd Font Mono** in terminal applications, and **Hack Nerd Font** in applications.
 
 ## 🔰 Credits
+
+I took inspiration and ideas from the following amazing projects and creators
 
 - [q3aql](https://gitlab.com/dediegonehuen/dotfiles)
 - [Antonio Sarosi](https://github.com/antoniosarosi/dotfiles/)

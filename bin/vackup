@@ -2,41 +2,42 @@
 
 set -e
 
-UBUNTU_IMAGE="ubuntu:24.04"
+IMAGE="ubuntu:24.04"
 
-vol_export() {
+_error() {
+    echo "Error: $1" >&2
+    exit 1
+}
+
+vol_backup() {
     if [ -z "$1" ]; then
-        echo "use: export <volume> [file.tar.gz]"
-        exit 1
+        _error "use: backup <volume> [file.tar.gz]"
     fi
     
     VOLUME="$1"
     FILE="${2:-$VOLUME.tar.gz}"
     
     docker volume inspect "$VOLUME" >/dev/null 2>&1 || {
-        echo "volume does not exist"
-        exit 1
+        _error "volume does not exist"
     }
     
     docker run --rm \
     -v "${VOLUME}:/source:ro" \
     -v "$(pwd):/backup" \
-    "$UBUNTU_IMAGE" \
+    "$IMAGE" \
     tar czf "/backup/$(basename "$FILE")" -C /source .
 }
 
-vol_import() {
+vol_restore() {
     if [ -z "$1" ]; then
-        echo "use: import <volume> [file.tar.gz]"
-        exit 1
+        _error "use: restore <volume> [file.tar.gz]"
     fi
     
     VOLUME="$1"
     FILE="${2:-$VOLUME.tar.gz}"
     
     [ -f "$FILE" ] || {
-        echo "file does not exist"
-        exit 1
+        _error "file does not exist"
     }
     
     docker volume inspect "$VOLUME" >/dev/null 2>&1 || {
@@ -46,22 +47,20 @@ vol_import() {
     docker run --rm \
     -v "${VOLUME}:/target" \
     -v "$(pwd):/backup" \
-    "$UBUNTU_IMAGE" \
+    "$IMAGE" \
     tar xzf "/backup/$(basename "$FILE")" -C /target
 }
 
 vol_clone() {
     if [ -z "$1" ] || [ -z "$2" ]; then
-        echo "use: $0 clone volumen-source volumen-destination"
-        exit 1
+        _error "use: $0 clone volumen-source volumen-destination"
     fi
     
     SRC="$1"
     DST="$2"
     
     docker volume inspect "$SRC" >/dev/null 2>&1 || {
-        echo "volume dont exist"
-        exit 1
+        _error "volume dont exist"
     }
     
     docker volume inspect "$DST" >/dev/null 2>&1 || {
@@ -71,25 +70,24 @@ vol_clone() {
     docker run --rm \
     -v "${SRC}:/source:ro" \
     -v "${DST}:/target" \
-    "$UBUNTU_IMAGE" \
+    "$IMAGE" \
     cp -a /source/. /target/
 }
 
 case "${1:-}" in
-    export)
+    backup)
         shift
-        vol_export "$@"
+        vol_backup "$@"
     ;;
-    import)
+    restore)
         shift
-        vol_import "$@"
+        vol_restore "$@"
     ;;
     clone)
         shift
         vol_clone "$@"
     ;;
     *)
-        echo "Commands: [export, import, clone]"
-        exit 1
+        _error "commands: [backup, restore, clone]"
     ;;
 esac
