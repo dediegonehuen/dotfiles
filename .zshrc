@@ -24,8 +24,9 @@ load_module  ~/.config/zsh/wsl.zsh
 ZSH_THEME="agnoster"
 
 export ZSH="$HOME/.oh-my-zsh"
+
 export PATH="$HOME/bin:$PATH"
 
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+eval "$(starship init zsh)"

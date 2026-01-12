@@ -1,46 +1,131 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 add_newline = false
 command_timeout = 1000
-format = """$os$username$hostname$kubernetes$directory$git_branch$git_status"""
+
+format = """
+$os\
+$username\
+$hostname\
+$kubernetes\
+$directory\
+$git_branch\
+$git_status\
+$character
+"""
+
+palette = "catppuccin_mocha"
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
 
 # Drop ugly default prompt characters
 [character]
-success_symbol = ''
-error_symbol = ''
+disabled = true
+error_symbol = '[](red)'
 
 [os]
-format = '[$symbol](bold white) '   
+format = '[$symbol](bold lavender) '
 disabled = false
 
 [os.symbols]
-Windows = ' '
-Arch = '󰣇'
-Ubuntu = ''
-Macos = '󰀵'
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
 
-# Shows the username
 [username]
-style_user = 'white bold'
-style_root = 'black bold'
+style_user = 'lavender bold'
+style_root = 'red bold'
 format = '[$user]($style) '
 disabled = false
 show_always = true
 
-# Shows the hostname
 [hostname]
 ssh_only = false
-format = 'on [$hostname](bold yellow) '
+format = 'on [$hostname](bold blue) '
 disabled = false
 
-# Shows current directory
 [directory]
-truncation_length = 1
+truncation_length = 2
 truncation_symbol = '…/'
 home_symbol = '󰋜 ~'
-read_only_style = '197'
+read_only_style = 'red'
 read_only = '  '
 format = 'at [$path]($style)[$read_only]($read_only_style) '
+style = "flamingo"
 
-# Shows current git branch
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
 [git_branch]
 symbol = ' '
 format = 'via [$symbol$branch]($style)'
@@ -48,7 +133,6 @@ format = 'via [$symbol$branch]($style)'
 truncation_symbol = '…/'
 style = 'bold green'
 
-# Shows current git status
 [git_status]
 format = '([ \( $all_status$ahead_behind\)]($style) )'
 style = 'bold green'
@@ -64,7 +148,6 @@ staged = '[󰐗 staged=${count}](green) '
 renamed = '[󱍸 renamed=${count}](yellow) '
 deleted = '[󰍶 deleted=${count}](red) '
 
-# Shows kubernetes context and namespace
 [kubernetes]
 format = 'via [󱃾 $context\($namespace\)](bold purple) '
 disabled = false
