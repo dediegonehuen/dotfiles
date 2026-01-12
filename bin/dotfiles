@@ -33,6 +33,7 @@ case "${1:-}" in
     update)
         shift
         dotfiles_update "$@"
+    ;;
     *)
         _error "commands: [bootstrap]"
     ;;
