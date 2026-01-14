@@ -22,6 +22,7 @@ dotfiles_bootstrap() {
 }
 
 dotfiles_update() {
+    yadm restore *
     yadm pull
 }
 
