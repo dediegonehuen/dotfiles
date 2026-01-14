@@ -37,6 +37,6 @@ case "${1:-}" in
         dotfiles_update "$@"
     ;;
     *)
-        _error "commands: [bootstrap]"
+        _error "commands: [bootstrap, update]"
     ;;
 esac
