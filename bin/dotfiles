@@ -22,7 +22,7 @@ dotfiles_bootstrap() {
 }
 
 dotfiles_update() {
-    yadm update
+    yadm pull
 }
 
 case "${1:-}" in
